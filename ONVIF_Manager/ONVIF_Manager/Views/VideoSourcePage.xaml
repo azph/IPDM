@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Helpers="clr-namespace:ONVIF_Manager.ViewModels"
+             xmlns:expandable="clr-namespace:Expandable;assembly=ExpandableView"
+             mc:Ignorable="d"
+             x:Class="ONVIF_Manager.Views.VideoSourcePage"
+             Title="{Binding Title}"
+             Appearing="OnAppearing">
+    <StackLayout>
+        <StackLayout IsVisible="{Binding IsBusy, Converter={Helpers:InverseBoolConverter}}">
+
+            <ListView x:Name="MyListView"
+                    ItemsSource="{Binding Items}"
+                    HasUnevenRows="true"
+                    VerticalOptions="FillAndExpand"
+                    ItemTapped="Handle_ItemTapped"
+                    CachingStrategy="RecycleElement">
+                <d:ListView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Item 1</x:String>
+                        <x:String>Item 2</x:String>
+                        <x:String>Item 3</x:String>
+                        <x:String>Item 4</x:String>
+                        <x:String>Item 5</x:String>
+                    </x:Array>
+                </d:ListView.ItemsSource>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Name}" 
+                               d:Text="{Binding .}"
+                               LineBreakMode="NoWrap" 
+                               Style="{DynamicResource ListItemTextStyle}" 
+                               FontSize="16" />
+                                <Label Text="{Binding Token}" 
+                               d:Text="Detail"
+                               LineBreakMode="NoWrap" 
+                               Style="{DynamicResource ListItemDetailTextStyle}"
+                               FontSize="13"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </StackLayout>
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="Fill" />
+    </StackLayout>
+    
+
+</ContentPage>

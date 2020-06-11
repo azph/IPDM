@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Helpers="clr-namespace:ONVIF_Manager.ViewModels"
+             mc:Ignorable="d"
+             x:Class="ONVIF_Manager.Views.NetworkSettingsPage"
+             Title="Network settings"
+             Appearing="OnAppearing">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Spacing="5" Padding="5" IsVisible="{Binding IsBusy, Converter={Helpers:InverseBoolConverter}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="DHCP" FontSize="Small" />
+                    <Switch Grid.Column="1" IsToggled="{Binding DHCP}"/>
+                </Grid>
+                <StackLayout>
+                    <Label Text="IP address" FontSize="Small" />
+                    <Entry Text="{Binding IPAddress}" IsEnabled="{Binding DHCP, Converter={Helpers:InverseBoolConverter}}" d:Text="IP address" FontSize="Small" />
+                    <Label Text="Mask" FontSize="Small" />
+                    <Entry Text="{Binding Mask}" IsEnabled="{Binding DHCP, Converter={Helpers:InverseBoolConverter}}" d:Text="Mask" FontSize="Small" />
+                    <Label Text="Gateway" FontSize="Small" />
+                    <Entry Text="{Binding Gateway}"  IsEnabled="{Binding DHCP, Converter={Helpers:InverseBoolConverter}}" d:Text="Gateway" FontSize="Small" />
+                </StackLayout>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="HTTP"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center" />
+                    <Switch Grid.Column="1"  IsToggled="{Binding HTTPState}"/>
+                    <Entry Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding HTTPPort}" IsEnabled="{Binding HTTPState}" FontSize="Small" />
+
+                    <Label Grid.Row="2" Text="HTTPS"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center" />
+                    <Switch Grid.Row="2" Grid.Column="1" IsToggled="{Binding HTTPSState}"/>
+                    <Entry Grid.Row="3"   Grid.ColumnSpan="2" Text="{Binding HTTPSPort}" IsEnabled="{Binding HTTPSState}" FontSize="Small" />
+
+                    <Label Grid.Row="4" Text="RTSP"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center" />
+                    <Switch Grid.Row="4" Grid.Column="1"  IsToggled="{Binding RTSPState}"/>
+                    <Entry Grid.Row="5" Grid.ColumnSpan="2" Text="{Binding RTSPPort}" IsEnabled="{Binding RTSPState}"  FontSize="Small" />
+                    
+                </Grid>
+            </StackLayout>
+            
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="Fill" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
