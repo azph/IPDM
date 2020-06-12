@@ -20,8 +20,6 @@ namespace ONVIF_Manager.ViewModels
 
         public DeviceImpl DeviceImpl { get; set; }
 
-        private MediaService.MediaClient _mediaClient;
-
         public ItemDetailViewModel(DeviceImpl device)
         {
             Title = device?.ConnectionInfo.Host;

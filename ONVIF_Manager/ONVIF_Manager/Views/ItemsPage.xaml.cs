@@ -12,6 +12,7 @@ using ONVIF_Manager.Views;
 using ONVIF_Manager.ViewModels;
 using System.Windows.Input;
 using Expandable;
+using ONVIF_Manager.BusinessLayer;
 
 namespace ONVIF_Manager.Views
 {
@@ -29,20 +30,6 @@ namespace ONVIF_Manager.Views
             BindingContext = viewModel = new ItemsViewModel();
         }
 
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
-        {
-            var item = args.SelectedItem as ConnectionInfo;
-            if (item == null)
-                return;
-
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(new BusinessLayer.DeviceImpl(item))));
-            //await Navigation.PushAsync(new DeviceInfoPage(new DeviceInfoViewModel(new BusinessLayer.DeviceImpl(item))));
-            //await Navigation.PushAsync(new NetworkSettingsPage(new NetworkSettingsViewModel(new BusinessLayer.DeviceImpl(item))));
-
-            // Manually deselect item.
-            ItemsListView.SelectedItem = null;
-        }
-
         async void AddItem_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
@@ -51,8 +38,6 @@ namespace ONVIF_Manager.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
-            //ItemsListView.SelectedItem. StatusChanged += OnStatusChanged;
 
             if (viewModel.Items.Count == 0)
                 viewModel.LoadItemsCommand.Execute(null);
@@ -83,6 +68,17 @@ namespace ONVIF_Manager.Views
             await (sender as Expandable.ExpandableView).TouchHandlerView.RotateTo(rotation, 200, Easing.CubicInOut);
         }
 
+        private async void ItemsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = e.CurrentSelection.FirstOrDefault() as ConnectionInfo;
+            if (item == null)
+                return;
+            // Manually deselect item.
+            ItemsListView.SelectedItem = null;
 
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item.DeviceImpl)));
+            //await Navigation.PushAsync(new DeviceInfoPage(new DeviceInfoViewModel(new BusinessLayer.DeviceImpl(item))));
+            //await Navigation.PushAsync(new NetworkSettingsPage(new NetworkSettingsViewModel(new BusinessLayer.DeviceImpl(item))));            
+        }
     }
 }
