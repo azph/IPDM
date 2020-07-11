@@ -13,6 +13,7 @@ using ONVIF_Manager.ViewModels;
 using System.Windows.Input;
 using Expandable;
 using ONVIF_Manager.BusinessLayer;
+using System.Collections.ObjectModel;
 
 namespace ONVIF_Manager.Views
 {
@@ -64,8 +65,31 @@ namespace ONVIF_Manager.Views
                 default:
                     return;
             }
+            var expView = (sender as Expandable.ExpandableView);
 
-            await (sender as Expandable.ExpandableView).TouchHandlerView.RotateTo(rotation, 200, Easing.CubicInOut);
+            
+            if (e.Status == ExpandStatus.Expanding)
+            {
+                
+                /*var info = expView.BindingContext as ConnectionInfo;
+                if (!info.VideoSources.Any())
+                {
+                    await info.DeviceImpl.getServicesAsync(false);
+
+                    var videoSources = await Task.Run(() => info.DeviceImpl.MediaClient.GetVideoSources());
+                    foreach (var vs in videoSources)
+                    {
+
+
+                        info.VideoSources.Add(vs);
+                    }
+                    return;
+                }
+                */
+
+            }
+
+            await expView.TouchHandlerView.RotateTo(rotation, 200, Easing.CubicInOut);
         }
 
         private async void ItemsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -79,6 +103,11 @@ namespace ONVIF_Manager.Views
             await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item.DeviceImpl)));
             //await Navigation.PushAsync(new DeviceInfoPage(new DeviceInfoViewModel(new BusinessLayer.DeviceImpl(item))));
             //await Navigation.PushAsync(new NetworkSettingsPage(new NetworkSettingsViewModel(new BusinessLayer.DeviceImpl(item))));            
+        }
+
+        private void vsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

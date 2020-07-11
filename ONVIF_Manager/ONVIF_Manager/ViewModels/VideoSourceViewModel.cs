@@ -47,6 +47,7 @@ namespace ONVIF_Manager.ViewModels
                 var profiles2 = await Task.Run(() => media2Client.GetProfiles(null, new string[] { "All" }));
 
                 profiles2.Select(o => new MProfile {Token = o.token, Name = o.Name }).ForEach(oo=> Items.Add(oo));
+                return;
             }
 
             var mediaClient = ServicesHelper.CreateServiceClient(

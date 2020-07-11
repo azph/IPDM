@@ -14,14 +14,14 @@ namespace ONVIF_Manager
         //If using other emulators besides stock Google images you may need to adjust the IP address
         public static string AzureBackendUrl =
             DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5000" : "http://localhost:5000";
-        public static bool UseMockDataStore = true;
+        public static bool UseLocalDataStore = true;
 
         public App()
         {
             InitializeComponent();
 
-            if (UseMockDataStore)
-                DependencyService.Register<MockDataStore>();
+            if (UseLocalDataStore)
+                DependencyService.Register<LocalDataStore>();
             else
                 DependencyService.Register<AzureDataStore>();
             MainPage = new MainPage();

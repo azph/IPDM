@@ -25,12 +25,47 @@ namespace ONVIF_Manager.BusinessLayer
                 if (_client == null)
                 {
                     _client = ServicesHelper.CreateServiceClient(
-                        ConnectionInfo?.Host, ConnectionInfo.Username, ConnectionInfo.Password, (binding, address) => new Onvif.DeviceClient(binding, address)) as Onvif.DeviceClient;
+                        ConnectionInfo?.Uri, ConnectionInfo.Username, ConnectionInfo.Password, (binding, address) => new Onvif.DeviceClient(binding, address)) as Onvif.DeviceClient;
                 }
 
                 return _client;
             }
         }
+
+        MediaService.MediaClient _mediaClient;
+        public MediaService.MediaClient MediaClient
+        {
+            get
+            {
+                if (_mediaClient == null)
+                {
+                    var host = new Uri(ConnectionInfo.Uri).Host;
+                    _mediaClient = ServicesHelper.CreateServiceClient(
+                    ServicesHelper.ReplaceHost(MediaServiceAddr, host),
+                    ConnectionInfo.Username, ConnectionInfo.Password, (binding, address) => new MediaService.MediaClient(binding, address)) as MediaService.MediaClient;
+                }
+
+                return _mediaClient;
+            }
+        }
+
+        Media2Service.Media2Client _media2Client;
+        public Media2Service.Media2Client Media2Client
+        {
+            get
+            {
+                if (_media2Client == null)
+                {
+                    var host = new Uri(ConnectionInfo.Uri).Host;
+                    _media2Client = ServicesHelper.CreateServiceClient(
+                    ServicesHelper.ReplaceHost(Media2ServiceAddr, host),
+                    ConnectionInfo.Username, ConnectionInfo.Password, (binding, address) => new Media2Service.Media2Client(binding, address)) as Media2Service.Media2Client;
+                }
+
+                return _media2Client;
+            }
+        }
+
         public async Task<Onvif.Service[]> getServicesAsync(bool IncludeCapability)
         {
             if (_services == null)
@@ -70,7 +105,7 @@ namespace ONVIF_Manager.BusinessLayer
         {
             get
             {
-                var host = new Uri(ConnectionInfo.Host).Host;
+                var host = new Uri(ConnectionInfo.Uri).Host;
                 return ServicesHelper.ReplaceHost(MediaService?.XAddr, host);
             }
         }
@@ -79,7 +114,7 @@ namespace ONVIF_Manager.BusinessLayer
         {
             get
             {
-                var host = new Uri(ConnectionInfo.Host).Host;
+                var host = new Uri(ConnectionInfo.Uri).Host;
                 return ServicesHelper.ReplaceHost(Media2Service?.XAddr, host);
             }
         }

@@ -3,15 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Helpers="clr-namespace:ONVIF_Manager.ViewModels"
              mc:Ignorable="d"
-             x:Class="ONVIF_Manager.Views.VideoSourcesView">
-  <ContentView.Content>
-      <StackLayout>
+             x:Class="ONVIF_Manager.Views.VideoSourcesView"
+             x:Name="VSCollectionView">
+   
+  <ContentView.Content >
+        <StackLayout VerticalOptions="FillAndExpand">
             <CollectionView 
-                ItemsSource="{Binding VideoSources}"
-                SelectionMode="Single"
-                SelectionChanged="CollectionView_SelectionChanged"
-                VerticalOptions="FillAndExpand">
+                    ItemsSource="{Binding VideoSources}"
+                    SelectionMode="Single"
+                    SelectionChanged="CollectionView_SelectionChanged"
+                    IsVisible="{Binding IsBusy, Source={x:Reference VSCollectionView}, Converter={Helpers:InverseBoolConverter}}"
+                    VerticalOptions="FillAndExpand">
                 <d:CollectionView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>First Item</x:String>
@@ -25,11 +29,14 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Padding="5">
-
+                            <Label Text="{Binding token}" />
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            <ActivityIndicator IsRunning="{Binding IsBusy, Source={x:Reference VSCollectionView}}" IsVisible="{Binding IsBusy, Source={x:Reference VSCollectionView}}"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="Fill" />
         </StackLayout>
   </ContentView.Content>
 </ContentView>

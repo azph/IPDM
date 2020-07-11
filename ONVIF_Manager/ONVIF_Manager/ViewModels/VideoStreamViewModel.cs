@@ -33,7 +33,7 @@ namespace ONVIF_Manager.ViewModels
 
                 var result = await Task.Run(() => _deviceClient.GetServices(IncludeCapability: false));
 
-                var host = new Uri(Device.ConnectionInfo.Host).Host;
+                var host = new Uri(Device.ConnectionInfo.Uri).Host;
 
                 _mediaClient = ServicesHelper.CreateServiceClient(
                     ServicesHelper.ReplaceHost(result.FirstOrDefault(service => service.Namespace == "http://www.onvif.org/ver10/media/wsdl").XAddr, host),
@@ -70,7 +70,7 @@ namespace ONVIF_Manager.ViewModels
         {
             var streamUri = await Task.Run(async () => await loadAsync());
 
-            var host = new Uri(Device.ConnectionInfo.Host).Host;
+            var host = new Uri(Device.ConnectionInfo.Uri).Host;
 
             var media = new Media(LibVLC,
                 new Uri(ServicesHelper.ReplaceHost(streamUri.Uri, host)));

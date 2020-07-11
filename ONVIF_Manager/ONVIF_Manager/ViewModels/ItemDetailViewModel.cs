@@ -76,7 +76,7 @@ namespace ONVIF_Manager.ViewModels
                 
                 var result = await DeviceImpl.getServicesAsync(IncludeCapability: false);
 
-                var host = new Uri(DeviceImpl.ConnectionInfo.Host).Host;
+                var host = new Uri(DeviceImpl.ConnectionInfo.Uri).Host;
 
                 if (DeviceImpl.Media2Service != null)
                 {
@@ -144,7 +144,7 @@ namespace ONVIF_Manager.ViewModels
         {
             var streamUri = await Task.Run(async  ()  => await  loadAsync());
 
-            var host = new Uri(DeviceImpl.ConnectionInfo.Host).Host;
+            var host = new Uri(DeviceImpl.ConnectionInfo.Uri).Host;
 
             var media = new Media(LibVLC,
                 new Uri(ServicesHelper.ReplaceHost(streamUri, host)));

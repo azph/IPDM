@@ -14,15 +14,15 @@ namespace ONVIF_Manager.Services
         {
             items = new List<ConnectionInfo>()
             {
-                new ConnectionInfo { Id = Guid.NewGuid().ToString(), Host = "http://60.191.94.122:9507/onvif/device_service", Username = "admin", Password = "admin123" },
-                new ConnectionInfo { Id = Guid.NewGuid().ToString(), Host = "http://172.17.12.50:80/onvif/device_service", Username = "root", Password = "root" },
-                new ConnectionInfo { Id = Guid.NewGuid().ToString(), Host = "http://172.17.12.89:80/onvif/device_service", Username = "admin", Password = "Hik12345+" },
-                new ConnectionInfo { Id = Guid.NewGuid().ToString(), Host = "http://172.17.12.77:80/onvif/device_service", Username = "service", Password = "?g%WceYtcp1" },
-                new ConnectionInfo { Id = Guid.NewGuid().ToString(), Host = "http://172.17.12.58:80/onvif/device_service", Username = "admin", Password = "X?kAmvN1FAGN" },
-                new ConnectionInfo { Id = Guid.NewGuid().ToString(), Host = "http://172.17.12.52:80/onvif/device_service", Username = "admin", Password = "0eydozFnrrsF" },
-                new ConnectionInfo { Id = Guid.NewGuid().ToString(), Host = "http://172.17.12.51:80/onvif/device_service", Username = "root", Password = "root1qaz" },
-                new ConnectionInfo { Id = Guid.NewGuid().ToString(), Host = "http://172.17.12.108:80/onvif/device_service", Username = "admin", Password = "0eydozFnrrsF" },
-                new ConnectionInfo { Id = Guid.NewGuid().ToString(), Host = "http://220.76.91.54:60001/onvif/device_service", Username = "admin", Password = "1qaz@WSX#EDC" }
+                new ConnectionInfo { Id = 1, Host = "60.191.94.122:9507", Username = "admin", Password = "admin123" },
+                new ConnectionInfo { Id = 2, Host = "172.17.12.50:80", Username = "root", Password = "root" },
+                new ConnectionInfo { Id = 3, Host = "172.17.12.89:80", Username = "admin", Password = "Hik12345+" },
+                new ConnectionInfo { Id = 4, Host = "172.17.12.77:80", Username = "service", Password = "?g%WceYtcp1" },
+                new ConnectionInfo { Id = 5, Host = "172.17.12.58:80", Username = "admin", Password = "X?kAmvN1FAGN" },
+                new ConnectionInfo { Id = 6, Host = "172.17.12.52:80", Username = "admin", Password = "0eydozFnrrsF" },
+                new ConnectionInfo { Id = 7, Host = "172.17.12.51:80", Username = "root", Password = "root1qaz" },
+                new ConnectionInfo { Id = 8, Host = "172.17.12.108:80", Username = "admin", Password = "0eydozFnrrsF" },
+                new ConnectionInfo { Id = 9, Host = "220.76.91.54:60001", Username = "admin", Password = "1qaz@WSX#EDC" }
             };
         }
 
@@ -44,7 +44,7 @@ namespace ONVIF_Manager.Services
 
         public async Task<bool> DeleteItemAsync(string id)
         {
-            var oldItem = items.Where((ConnectionInfo arg) => arg.Id == id).FirstOrDefault();
+            var oldItem = items.Where((ConnectionInfo arg) => arg.Id.ToString() == id).FirstOrDefault();
             items.Remove(oldItem);
 
             return await Task.FromResult(true);
@@ -52,7 +52,7 @@ namespace ONVIF_Manager.Services
 
         public async Task<ConnectionInfo> GetItemAsync(string id)
         {
-            return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+            return await Task.FromResult(items.FirstOrDefault(s => s.Id.ToString() == id));
         }
 
         public async Task<IEnumerable<ConnectionInfo>> GetItemsAsync(bool forceRefresh = false)
